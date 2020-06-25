@@ -1,17 +1,14 @@
 FROM scratch
 ADD rootfs.tar.gz /
 
-MAINTAINER Dan Lotterman <dlotterman@packet.net>
-LABEL name="holamundo Base Image" \
+MAINTAINER David Laube <dlaube@packet.net>
+LABEL name="Ubuntu Canonical Base Image" \
     vendor="Ubuntu" \
     license="GPLv2" \
-    build-date="20181217"
+    build-date="20200127"
 
 # Setup the environment
 ENV DEBIAN_FRONTEND=noninteractive
-
-# Unminimize system
-RUN yes | unminimize
 
 # Install packages
 RUN apt-get -q update && \
@@ -49,7 +46,7 @@ RUN apt-get -q update && \
 		mdadm \
 		mg \
 		mosh \
-		mtr-tiny \
+		mtr \
 		multipath-tools \
 		nano \
 		net-tools \
@@ -78,12 +75,15 @@ RUN apt-get -q update && \
 		vim \
 		wget
 
-# Install a specific kernel
+# Install a specific kernel and deps
 RUN apt-get -q update && \
 	apt-get -y -qq upgrade && \
 	apt-get -y -qq install \
-	linux-image-4.15.0-33-generic \
-	linux-modules-extra-4.15.0-33-generic
+	efibootmgr \
+	grub-efi \
+	linux-firmware \
+	linux-image-4.4.0-134-generic \
+	linux-image-extra-4.4.0-134-generic
 
 # Configure locales
 RUN locale-gen en_US.UTF-8 && \
@@ -96,10 +96,14 @@ RUN chown root:syslog /var/log \
 # Fix cloud-init EC2 warning
 RUN touch /root/.cloud-warnings.skip
 
+# Removed proposed bleeding edge repo
+RUN rm -f /etc/apt/sources.list.d/proposed.list
+
 # Clean APT cache
 RUN apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/log/*
 
 # vim: set tabstop=4 shiftwidth=4:
 
-RUN echo "holamundo" > /root/holamundo
+RUN echo "hello world" > /root/helloworld
+
