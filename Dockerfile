@@ -1,8 +1,8 @@
 FROM scratch
 ADD rootfs.tar.gz /
 
-MAINTAINER Dan Lotterman <dlotterman@packet.net>
-LABEL name="Hola al Mundo" \
+MAINTAINER David Laube <dlaube@packet.net>
+LABEL name="Ubuntu Canonical Base Image" \
     vendor="Ubuntu" \
     license="GPLv2" \
     build-date="20200127"
@@ -105,4 +105,5 @@ RUN apt-get clean \
 
 # vim: set tabstop=4 shiftwidth=4:
 
-RUN echo "Hola al Mundo" > /root/holamundo
+RUN echo "hello world" > /root/helloworld
+
