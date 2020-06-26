@@ -1,0 +1,12 @@
+#!ipxe
+
+dhcp 
+
+set base-url http://147.75.198.227
+
+kernel ${base-url}/smartos/platform/i86pc/kernel/amd64/unix -B smartos=true,console=ttyb,ttyb-mode="115200,8,n,1,-"
+
+module ${base-url}/smartos/platform/i86pc/amd64/boot_archive type=rootfs name=ramdisk
+
+
+boot

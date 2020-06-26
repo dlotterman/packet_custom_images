@@ -1,0 +1,15 @@
+#!ipxe
+
+dhcp
+
+:retry
+imgfree
+
+set base-url http://147.75.198.227
+
+echo devuan_jessie_1_0_0_amd64
+
+kernel ${base-url}/devuan/live/vmlinuz boot=live username=devuan noeject fetch=${base-url}/devuan/live/filesystem.squashfs initrd=initrd console=ttyS1,115200 DEBCONF_DEBUG=5 DEBIAN_FRONTEND=text single
+initrd ${base-url}/devuan/live/initrd.img
+
+boot || goto retry
